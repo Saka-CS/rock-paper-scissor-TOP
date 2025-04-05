@@ -10,16 +10,8 @@ function getComputerChoice(){
         return "Paper"
     }
     else {
-        return "Scissors"
+        return "Scissor"
     }
-}
-
-// Handel user input
-function getHumanChoice(){
-    choice = prompt("Choose your move: 'Rock', 'Paper' or 'Scissors'")
-    choice = String(choice).charAt(0).toUpperCase() + choice.slice(1).toLowerCase()
-
-    return choice
 }
 
 // Winner logic for each round 
@@ -28,51 +20,58 @@ function playRound(humanChoice, computerChoice){
     if(humanChoice === computerChoice){
         console.log("DRAW! Both Players Chose " + humanChoice)
     }
-    else if(humanChoice === "Paper" && computerChoice === "Scissors"){
-        console.log("Computer have WON!! Scissors cut paper")
-        computerScore += 1
+    else if(humanChoice === "Paper" && computerChoice === "Scissor"){
+        console.log("Computer have WON!! Scissor cut paper")
+        score[1].textContent = parseInt(score[1].textContent) + 1;
+        computerScore += 1;
     }
     else if(humanChoice === "Paper" && computerChoice === "Rock"){
         console.log("Human has WON!! Paper cover rock")
-        humanScore += 1
+        score[0].textContent = parseInt(score[0].textContent) + 1;
+        humanScore += 1;
     }
     else if(humanChoice === "Rock" && computerChoice === "Paper"){
-        console.log("Computer have WON!! Paper cover rock")
+        console.log("Computer have WON!! Paper cover rock");
+        score[1].textContent = parseInt(score[1].textContent) + 1;
+        computerScore += 1;
+    }
+    else if(humanChoice === "Rock" && computerChoice === "Scissor"){
+        console.log("Human has WON!! Rock breaks scissor")
+        score[0].textContent = parseInt(score[0].textContent) + 1;
+        humanScore += 1;
+    }
+    else if(humanChoice === "Scissor" && computerChoice === "Rock"){
+        console.log("Computer have WON!! Rock breaks scissor")
+        score[1].textContent = parseInt(score[1].textContent) + 1;
         computerScore += 1
     }
-    else if(humanChoice === "Rock" && computerChoice === "Scissors"){
-        console.log("Human has WON!! Rock breaks scissors")
-        humanScore += 1
-    }
-    else if(humanChoice === "Scissors" && computerChoice === "Rock"){
-        console.log("Computer have WON!! Rock breaks scissors")
-        computerScore += 1
-    }
-    else if(humanChoice === "Scissors" && computerChoice === "Paper"){
-        console.log("Human has WON!! Scissors cut paper")
+    else if(humanChoice === "Scissor" && computerChoice === "Paper"){
+        console.log("Human has WON!! Scissor cut paper");
+        score[0].textContent = parseInt(score[0].textContent) + 1;
         humanScore += 1
     }
 }
+
+// start game
+function startGame(e){
+    choice = e.target;
+    console.log(choice.id);
+    playRound(choice.id, getComputerChoice());
+    if(humanScore === 5){
+        title.textContent += " THE HUMAN HAS WON";
+        options.removeEventListener("click", startGame);
+    }
+    else if(computerScore === 5){
+        title.textContent += " THE COMPUTER HAS WON";
+        options.removeEventListener("click", startGame);
+    }
+};
 
 // Game logic
-function playGame(){
-    humanScore = 0
-    computerScore = 0
+const options = document.querySelector("#player-choice");
+const score = document.querySelectorAll("#score h2");
+const title = document.querySelector("#title");
+humanScore = 0;
+computerScore = 0;
 
-    while (humanScore < 5 && computerScore < 5){
-        humanSelection = getHumanChoice()
-        computerSelection = getComputerChoice()
-
-        console.log(humanSelection)
-        console.log(computerSelection)
-
-        playRound(humanSelection, computerSelection)
-
-        console.log(humanScore)
-        console.log(computerScore)
-
-    }
-
-}
-
-playGame()
+options.addEventListener("click", startGame);
