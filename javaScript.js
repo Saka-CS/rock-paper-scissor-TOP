@@ -58,18 +58,18 @@ function startGame(e){
     console.log(choice.id);
     playRound(choice.id, getComputerChoice());
     if(humanScore === 5){
-        title.textContent += " THE HUMAN HAS WON";
+        title.textContent = " THE HUMAN HAS WON";
         options.removeEventListener("click", startGame);
     }
     else if(computerScore === 5){
-        title.textContent += " THE COMPUTER HAS WON";
+        title.textContent = " THE COMPUTER HAS WON";
         options.removeEventListener("click", startGame);
     }
 };
 
 // Game logic
 const options = document.querySelector("#player-choice");
-const score = document.querySelectorAll("#score h2");
+const score = document.querySelectorAll(".points");
 const title = document.querySelector("#title");
 humanScore = 0;
 computerScore = 0;
